@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>무인 자동차는 어떻게 해야 할까요? · 디지털 윤리주간</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="rotate-notice">태블릿을 가로로 돌려주세요 🔄</div>
+
+<!-- 0. 시작 화면 -->
+<div class="screen active" id="startScreen">
+  <div class="card">
+    <h1>무인 자동차는 어떻게 해야 할까요?</h1>
+    <p class="lead">브레이크가 고장난 자율주행차가 되어, 10가지 딜레마 상황에서 선택을 내려보세요.<br>정답은 없어요. 당신의 선택이 곧 하나의 인공지능을 만듭니다.</p>
+    <div class="info-row">
+      <label>학년
+        <select id="gradeSelect">
+          <option value="">선택</option>
+          <option value="1">1학년</option>
+          <option value="2">2학년</option>
+          <option value="3">3학년</option>
+        </select>
+      </label>
+      <label>반
+        <input type="text" id="classInput" inputmode="numeric" placeholder="예: 3">
+      </label>
+    </div>
+    <p id="infoError" style="color:#A32D2D; text-align:center; min-height:20px;"></p>
+    <div style="display:flex; justify-content:center;">
+      <button id="startBtn">시작하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 시나리오 화면 -->
+<div class="screen" id="scenarioScreen">
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel"></div>
+  </div>
+  <h2 id="scenarioPrompt"></h2>
+  <div class="scenario-scene" id="sceneContainer"></div>
+  <div class="choice-row">
+    <button class="choice-btn" id="leftChoiceBtn"></button>
+    <button class="choice-btn" id="rightChoiceBtn"></button>
+  </div>
+  <div style="margin-top:20px;">
+    <button id="nextBtn" class="hidden">다음 →</button>
+  </div>
+</div>
+
+<!-- 2. 결과 화면 -->
+<div class="screen" id="resultScreen">
+  <div class="card">
+    <div class="result-icon">🤖</div>
+    <h2 id="resultName"></h2>
+    <p class="lead" id="resultSummary"></p>
+    <div class="axis-bar-wrap">
+      <div class="axis-labels"><span>소수/약자 보호</span><span>다수 우선</span></div>
+      <div class="axis-track"><div class="axis-dot" id="axisDot1"></div></div>
+      <div class="axis-labels"><span>원칙 준수</span><span>상황 판단</span></div>
+      <div class="axis-track"><div class="axis-dot" id="axisDot2"></div></div>
+    </div>
+  </div>
+
+  <div class="article-card">
+    <p class="article-headline" id="articleHeadline"></p>
+    <p class="article-body" id="articleBody"></p>
+    <div class="article-cols">
+      <div>
+        <h4>장점</h4>
+        <ul id="prosList"></ul>
+      </div>
+      <div>
+        <h4>문제점</h4>
+        <ul id="consList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="scenarios.js"></script>
+<script src="scene-render.js"></script>
+<script src="result.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
