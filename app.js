@@ -1,6 +1,6 @@
 // app.js — 화면 흐름 제어
 
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyLHClwZdRgT1brrPvjjZjm83uB94zSAX_A780RX9QjufceudPzI13ExiHalodlaij0/exec'; // TODO: 배포 후 교체
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbwUP8a_WANJcinpRsF9AduGn7RN1mT2sLY1QDUYe6ETVEGgCEFPMs9_31vbe8epFIgo/exec'; // TODO: 배포 후 교체
 
 var state = {
   grade: '',
