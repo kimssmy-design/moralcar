@@ -23,12 +23,12 @@ function renderStatCards(counts) {
   });
 }
 
-function renderRankLine(rank, total) {
+function renderRankLine(rank, total, typeName) {
   var el = document.getElementById('rankLine');
   if (rank && total) {
-    el.textContent = '참여한 ' + total + '명 중 ' + rank + '번째로 참여했어요!';
+    el.textContent = '참여한 ' + total + '명 중 ' + rank + '번째 ' + typeName + '이에요!';
   } else if (rank) {
-    el.textContent = rank + '번째로 참여했어요!';
+    el.textContent = rank + '번째 ' + typeName + '이에요!';
   } else {
     el.textContent = '';
   }

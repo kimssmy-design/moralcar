@@ -166,7 +166,7 @@ function submitResult(typeKey, typeName) {
       var rank = submitRes && submitRes.ok ? submitRes.rank : null;
       fetchStats().then(function (statsRes) {
         renderStatCards(statsRes.ok ? statsRes.counts : {});
-        renderRankLine(rank, statsRes.ok ? statsRes.total : null);
+        renderRankLine(rank, statsRes.ok ? statsRes.total : null, typeName);
       });
     })
     .catch(function () {
