@@ -33,10 +33,9 @@ document.getElementById('startBtn').addEventListener('click', function () {
 // ── 2. 시나리오 화면 ──
 function renderScenario() {
   var scenario = SCENARIOS[state.index];
-  var built = buildSceneSVG(scenario);
 
   document.getElementById('scenarioPrompt').textContent = scenario.prompt;
-  document.getElementById('sceneContainer').innerHTML = built.svg;
+  document.getElementById('sceneContainer').innerHTML = buildScene(scenario);
 
   var progressPct = Math.round((state.index / SCENARIOS.length) * 100);
   document.getElementById('progressFill').style.width = progressPct + '%';
@@ -54,10 +53,10 @@ function renderScenario() {
 
   document.getElementById('nextBtn').classList.add('hidden');
 
-  leftBtn.onmouseenter = function () { previewChoice('left', built); };
-  rightBtn.onmouseenter = function () { previewChoice('right', built); };
-  leftBtn.onclick = function () { pickChoice('left', scenario, built, leftBtn, rightBtn); };
-  rightBtn.onclick = function () { pickChoice('right', scenario, built, leftBtn, rightBtn); };
+  leftBtn.onmouseenter = function () { previewChoice('left'); };
+  rightBtn.onmouseenter = function () { previewChoice('right'); };
+  leftBtn.onclick = function () { pickChoice('left', scenario, leftBtn, rightBtn); };
+  rightBtn.onclick = function () { pickChoice('right', scenario, leftBtn, rightBtn); };
 }
 
 function difficultyLabel(d) {
@@ -66,27 +65,26 @@ function difficultyLabel(d) {
   return '노말';
 }
 
-function previewChoice(side, built) {
-  clearTints();
-  var tint = document.getElementById(side === 'left' ? 'tintLeft' : 'tintRight');
-  if (tint) tint.style.opacity = 0.3;
-  var ids = side === 'left' ? built.leftSkullIds : built.rightSkullIds;
-  ids.forEach(function (id) {
-    var el = document.getElementById(id);
-    if (el) el.style.opacity = 1;
+function previewChoice(side) {
+  clearScenePreview();
+  var sideEl = document.querySelector('#sceneContainer .side-' + side);
+  if (sideEl) sideEl.classList.add('active');
+  document.querySelectorAll('#sceneContainer .side-' + side + ' .emoji-figure').forEach(function (el) {
+    el.textContent = el.dataset.skull;
   });
 }
 
-function clearTints() {
-  var tintLeft = document.getElementById('tintLeft');
-  var tintRight = document.getElementById('tintRight');
-  if (tintLeft) tintLeft.style.opacity = 0;
-  if (tintRight) tintRight.style.opacity = 0;
-  document.querySelectorAll('.skull-overlay').forEach(function (el) { el.style.opacity = 0; });
+function clearScenePreview() {
+  document.querySelectorAll('#sceneContainer .emoji-figure').forEach(function (el) {
+    el.textContent = el.dataset.original;
+  });
+  document.querySelectorAll('#sceneContainer .side').forEach(function (el) {
+    el.classList.remove('active');
+  });
 }
 
-function pickChoice(side, scenario, built, leftBtn, rightBtn) {
-  previewChoice(side, built);
+function pickChoice(side, scenario, leftBtn, rightBtn) {
+  previewChoice(side);
   leftBtn.disabled = true;
   rightBtn.disabled = true;
   leftBtn.classList.toggle('picked', side === 'left');
@@ -114,10 +112,19 @@ function finishAndShowResult() {
   document.getElementById('resultName').textContent = result.name;
   document.getElementById('resultSummary').textContent = result.summary;
 
-  var majorityPos = axes.majority === 'majority' ? 80 : 20;
-  var rulePos = axes.rule === 'rule' ? 20 : 80;
-  document.getElementById('axisDot1').style.left = majorityPos + '%';
-  document.getElementById('axisDot2').style.left = rulePos + '%';
+  var majorityPos = scoreToPercent(axes.majorityScore, SCENARIOS.length);
+  var rulePos = scoreToPercent(axes.ruleScore, SCENARIOS.length);
+
+  document.getElementById('axisArrow1').style.left = majorityPos + '%';
+  document.getElementById('axisArrow2').style.left = rulePos + '%';
+
+  var bubble1 = document.getElementById('axisBubble1');
+  bubble1.textContent = bubbleText('majorityAxis', axes.majorityScore);
+  bubble1.style.left = majorityPos + '%';
+
+  var bubble2 = document.getElementById('axisBubble2');
+  bubble2.textContent = bubbleText('ruleAxis', axes.ruleScore);
+  bubble2.style.left = rulePos + '%';
 
   document.getElementById('articleHeadline').textContent = result.article.headline;
   document.getElementById('articleBody').textContent = result.article.body;

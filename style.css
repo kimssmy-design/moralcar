@@ -104,15 +104,73 @@ button.secondary { background: #fff; color: #185FA5; border: 2px solid #185FA5; 
 }
 .choice-btn:active, .choice-btn.picked { border-color: #185FA5; background: #E6F1FB; }
 
-.tint { transition: opacity 0.25s; }
-.skull-overlay { transition: opacity 0.25s; }
+.scene-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 560px; margin: 0 auto; }
+.side {
+  background: #fff;
+  border: 3px solid;
+  border-radius: 16px;
+  padding: 16px 12px;
+  text-align: center;
+  transition: background 0.2s;
+}
+.side-left { border-color: #FF3B30; }
+.side-right { border-color: #007AFF; }
+.side-left .side-label, .side-left .side-desc { color: #FF3B30; }
+.side-right .side-label, .side-right .side-desc { color: #007AFF; }
+.side-left.active { background: #FF3B30; }
+.side-right.active { background: #007AFF; }
+.side.active .side-label, .side.active .side-desc { color: #fff; }
+.side-label { font-size: 14px; font-weight: 500; margin: 0 0 6px; }
+.icon-row { font-size: 40px; line-height: 1.1; margin-bottom: 6px; }
+.emoji-figure { display: inline-block; margin: 0 2px; transition: transform 0.15s; }
+.side-desc { font-size: 13px; margin: 0; }
+.signal-row { font-size: 22px; margin-bottom: 6px; }
+
+.car-hood { position: relative; height: 60px; max-width: 220px; margin: 4px auto 0; overflow: hidden; }
+.car-hood::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -40px;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 110px;
+  background: #2C2C2A;
+  border-radius: 50% 50% 0 0;
+}
+.headlight { position: absolute; bottom: 14px; width: 16px; height: 16px; background: #FAEEDA; border-radius: 50%; }
+.headlight-left { left: calc(50% - 55px); }
+.headlight-right { left: calc(50% + 39px); }
 
 /* 결과 화면 */
 .result-icon { font-size: 40px; text-align: center; }
 .axis-bar-wrap { background: #F1EFE8; border-radius: 12px; padding: 16px; margin-top: 16px; }
 .axis-labels { display: flex; justify-content: space-between; font-size: 13px; color: #5F5E5A; margin-bottom: 6px; }
-.axis-track { height: 6px; background: #D3D1C7; border-radius: 4px; position: relative; margin-bottom: 18px; }
-.axis-dot { position: absolute; top: -5px; width: 16px; height: 16px; border-radius: 50%; background: #534AB7; }
+.axis-track { height: 6px; background: #D3D1C7; border-radius: 4px; position: relative; margin-bottom: 4px; }
+.axis-arrow { position: absolute; top: -16px; transform: translateX(-50%); font-size: 15px; color: #2C2C2A; transition: left 0.3s; }
+.axis-bubble-row { position: relative; height: 34px; margin-bottom: 14px; }
+.axis-bubble {
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+  background: #2C2C2A;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: left 0.3s;
+}
+.axis-bubble::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #2C2C2A;
+}
 
 .article-card { background: #FAECE7; border-radius: 14px; padding: 20px; margin-top: 20px; max-width: 720px; }
 .article-headline { font-size: 19px; font-weight: 500; margin: 0 0 8px; }
