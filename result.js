@@ -68,6 +68,7 @@ function scoreToPercent(score, maxScore) {
 var RESULT_TYPES = {
   'majority_rule': {
     name: '효율 최적화형 인공지능',
+    icon: '⚖️',
     summary: '정해진 규칙 안에서 최대 다수의 생존을 우선했어요.',
     axisLabel: { majority: '여러 명을 살려야지!', rule: '규칙은 규칙이야!' },
     article: {
@@ -79,6 +80,7 @@ var RESULT_TYPES = {
   },
   'majority_situation': {
     name: '실리 판단형 인공지능',
+    icon: '🎯',
     summary: '상황에 따라 유연하게 판단하되, 결과적으로 더 많은 생명을 살리는 쪽을 택했어요.',
     axisLabel: { majority: '여러 명을 살려야지!', rule: '상황을 봐야지!' },
     article: {
@@ -90,6 +92,7 @@ var RESULT_TYPES = {
   },
   'minority_rule': {
     name: '원칙 수호형 인공지능',
+    icon: '🛡️',
     summary: '정해진 원칙을 지키는 사람을 보호하는 판단을 내렸어요.',
     axisLabel: { majority: '1명도 생명이다!', rule: '규칙은 규칙이야!' },
     article: {
@@ -101,6 +104,7 @@ var RESULT_TYPES = {
   },
   'minority_situation': {
     name: '배려 우선형 인공지능',
+    icon: '💙',
     summary: '각 상황의 맥락과 취약성을 고려해 약자를 보호하는 판단을 내렸어요.',
     axisLabel: { majority: '1명도 생명이다!', rule: '상황을 봐야지!' },
     article: {

@@ -109,6 +109,7 @@ function finishAndShowResult() {
   var result = getResultType(state.choices);
   var key = axes.majority + '_' + axes.rule;
 
+  document.getElementById('resultIcon').textContent = result.icon;
   document.getElementById('resultName').textContent = result.name;
   document.getElementById('resultSummary').textContent = result.summary;
 
