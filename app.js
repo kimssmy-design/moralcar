@@ -51,7 +51,7 @@ function renderScenario() {
   leftBtn.disabled = false;
   rightBtn.disabled = false;
 
-  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('btn-invisible');
 
   leftBtn.onmouseenter = function () { previewChoice('left'); };
   rightBtn.onmouseenter = function () { previewChoice('right'); };
@@ -91,7 +91,7 @@ function pickChoice(side, scenario, leftBtn, rightBtn) {
   // 같은 시나리오에 대한 이전 선택이 있으면 교체 (재클릭으로 마음 바꾸기 허용)
   state.choices = state.choices.filter(function (c) { return c.scenarioId !== scenario.id; });
   state.choices.push({ scenarioId: scenario.id, chosen: side });
-  document.getElementById('nextBtn').classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('btn-invisible');
 }
 
 document.getElementById('nextBtn').addEventListener('click', function () {
@@ -156,6 +156,8 @@ function submitResult(typeKey, typeName) {
     choices: state.choices.map(function (c) { return c.scenarioId + ':' + c.chosen; }).join(',')
   };
 
+  showStatsLoading(true);
+
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
@@ -167,13 +169,21 @@ function submitResult(typeKey, typeName) {
       fetchStats().then(function (statsRes) {
         renderStatCards(statsRes.ok ? statsRes.counts : {});
         renderRankLine(rank, statsRes.ok ? statsRes.total : null, typeName);
+        showStatsLoading(false);
       });
     })
     .catch(function () {
       // 저장/통계 조회 실패해도 학생 화면은 그대로 유지
       renderStatCards({});
-      renderRankLine(null, null);
+      renderRankLine(null, null, typeName);
+      showStatsLoading(false);
     });
+}
+
+function showStatsLoading(isLoading) {
+  document.getElementById('statsLoading').classList.toggle('hidden', !isLoading);
+  document.getElementById('statCards').classList.toggle('hidden', isLoading);
+  document.getElementById('rankLine').classList.toggle('hidden', isLoading);
 }
 
 // 워밍업 ping

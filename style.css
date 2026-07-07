@@ -186,4 +186,14 @@ button.secondary { background: #fff; color: #185FA5; border: 2px solid #185FA5; 
 .stat-card-count { font-size: 18px; font-weight: 500; margin: 0; }
 .rank-line { font-size: 14px; color: #5F5E5A; text-align: center; margin: 0 0 16px; }
 
+@keyframes car-shake { 0%, 100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-1px) rotate(-2deg); } 75% { transform: translateY(-1px) rotate(2deg); } }
+@keyframes wheel-spin { to { transform: rotate(360deg); } }
+.stats-loading { text-align: center; padding: 16px 0 24px; }
+.car-wrap { display: inline-block; animation: car-shake 0.3s ease-in-out infinite; }
+.car-emoji { font-size: 30px; display: block; }
+.wheels { display: flex; justify-content: center; gap: 14px; margin-top: -4px; }
+.wheel { width: 8px; height: 8px; border-radius: 50%; border: 2px dashed #5F5E5A; animation: wheel-spin 0.5s linear infinite; }
+.stats-loading-text { font-size: 14px; color: #5F5E5A; margin: 8px 0 0; }
+
 .hidden { display: none !important; }
+.btn-invisible { visibility: hidden; }

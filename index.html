@@ -49,15 +49,22 @@
     <button class="choice-btn" id="rightChoiceBtn"></button>
   </div>
   <div style="margin-top:20px;">
-    <button id="nextBtn" class="hidden">다음 →</button>
+    <button id="nextBtn" class="btn-invisible">다음 →</button>
   </div>
 </div>
 
 <!-- 2. 결과 화면 -->
 <div class="screen" id="resultScreen">
   <div class="card">
-    <div id="statCards" class="stat-cards"></div>
-    <p id="rankLine" class="rank-line"></p>
+    <div id="statsLoading" class="stats-loading">
+      <div class="car-wrap">
+        <span class="car-emoji">🚗</span>
+        <div class="wheels"><div class="wheel"></div><div class="wheel"></div></div>
+      </div>
+      <p class="stats-loading-text">잠시만 기다려주세요...</p>
+    </div>
+    <div id="statCards" class="stat-cards hidden"></div>
+    <p id="rankLine" class="rank-line hidden"></p>
     <div class="result-icon" id="resultIcon"></div>
     <h2 id="resultName"></h2>
     <p class="lead" id="resultSummary"></p>
