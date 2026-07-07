@@ -1,6 +1,6 @@
 // app.js — 화면 흐름 제어
 
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbwZUckIwINi44hrCWk-vEGxcdpI6Zqx_S-83tN6UI2RFFVp6fTmdD5mOzJ_Wclkr4vw/exec'; // TODO: 배포 후 교체
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbyLHClwZdRgT1brrPvjjZjm83uB94zSAX_A780RX9QjufceudPzI13ExiHalodlaij0/exec'; // TODO: 배포 후 교체
 
 var state = {
   grade: '',
@@ -85,11 +85,11 @@ function clearScenePreview() {
 
 function pickChoice(side, scenario, leftBtn, rightBtn) {
   previewChoice(side);
-  leftBtn.disabled = true;
-  rightBtn.disabled = true;
   leftBtn.classList.toggle('picked', side === 'left');
   rightBtn.classList.toggle('picked', side === 'right');
 
+  // 같은 시나리오에 대한 이전 선택이 있으면 교체 (재클릭으로 마음 바꾸기 허용)
+  state.choices = state.choices.filter(function (c) { return c.scenarioId !== scenario.id; });
   state.choices.push({ scenarioId: scenario.id, chosen: side });
   document.getElementById('nextBtn').classList.remove('hidden');
 }
@@ -144,7 +144,7 @@ function finishAndShowResult() {
   submitResult(key, result.name);
 }
 
-// ── 4. 결과 저장 (GAS) ──
+// ── 4. 결과 저장 (GAS) + 통계 표시 ──
 function submitResult(typeKey, typeName) {
   var payload = {
     action: 'submit',
@@ -154,11 +154,25 @@ function submitResult(typeKey, typeName) {
     typeName: typeName,
     choices: state.choices.map(function (c) { return c.scenarioId + ':' + c.chosen; }).join(',')
   };
+
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify(payload)
-  }).catch(function () { /* 저장 실패해도 학생 화면은 그대로 유지 */ });
+  })
+    .then(function (res) { return res.json(); })
+    .then(function (submitRes) {
+      var rank = submitRes && submitRes.ok ? submitRes.rank : null;
+      fetchStats().then(function (statsRes) {
+        renderStatCards(statsRes.ok ? statsRes.counts : {});
+        renderRankLine(rank, statsRes.ok ? statsRes.total : null);
+      });
+    })
+    .catch(function () {
+      // 저장/통계 조회 실패해도 학생 화면은 그대로 유지
+      renderStatCards({});
+      renderRankLine(null, null);
+    });
 }
 
 // 워밍업 ping
