@@ -52,6 +52,9 @@ function renderScenario() {
   rightBtn.disabled = false;
 
   document.getElementById('nextBtn').classList.add('btn-invisible');
+  var reactionEl = document.getElementById('reactionBubble');
+  reactionEl.textContent = '　'; // 빈 자리 유지용 공백
+  reactionEl.classList.add('bubble-invisible');
 
   leftBtn.onmouseenter = function () { previewChoice('left'); };
   rightBtn.onmouseenter = function () { previewChoice('right'); };
@@ -87,6 +90,10 @@ function pickChoice(side, scenario, leftBtn, rightBtn) {
   previewChoice(side);
   leftBtn.classList.toggle('picked', side === 'left');
   rightBtn.classList.toggle('picked', side === 'right');
+
+  var reactionEl = document.getElementById('reactionBubble');
+  reactionEl.textContent = '💬 ' + scenario[side].reaction;
+  reactionEl.classList.remove('bubble-invisible');
 
   // 같은 시나리오에 대한 이전 선택이 있으면 교체 (재클릭으로 마음 바꾸기 허용)
   state.choices = state.choices.filter(function (c) { return c.scenarioId !== scenario.id; });
@@ -185,6 +192,20 @@ function showStatsLoading(isLoading) {
   document.getElementById('statCards').classList.toggle('hidden', isLoading);
   document.getElementById('rankLine').classList.toggle('hidden', isLoading);
 }
+
+// ── 5. 다음 참여자를 위한 초기화 ──
+document.getElementById('restartBtn').addEventListener('click', function () {
+  state.grade = '';
+  state.classNum = '';
+  state.index = 0;
+  state.choices = [];
+
+  document.getElementById('gradeSelect').value = '';
+  document.getElementById('classInput').value = '';
+  document.getElementById('infoError').textContent = '';
+
+  showScreen('startScreen');
+});
 
 // 워밍업 ping
 (function warmup() { fetch(GAS_URL, { method: 'GET' }).catch(function () {}); })();
