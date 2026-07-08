@@ -17,6 +17,7 @@ function fetchStats() {
 
 function renderStatCards(counts) {
   var wrap = document.getElementById('statCards');
+  wrap.classList.remove('hidden');
   wrap.innerHTML = '';
   TYPE_DISPLAY_ORDER.forEach(function (key) {
     var typeInfo = RESULT_TYPES[key];
@@ -35,6 +36,7 @@ function renderStatCards(counts) {
 
 function renderRankLine(rank, total, typeName) {
   var el = document.getElementById('rankLine');
+  el.classList.remove('hidden');
   if (rank && total) {
     el.textContent = '참여한 ' + total + '명 중 ' + rank + '번째 ' + typeName + '이에요!';
   } else if (rank) {
@@ -42,4 +44,15 @@ function renderRankLine(rank, total, typeName) {
   } else {
     el.textContent = '';
   }
+}
+
+// 네트워크/서버 문제로 통계를 못 불러왔을 때 표시할 안내 (통계 카드는 숨기고 문구만 표시)
+function renderStatsUnavailable(typeName) {
+  var cardsWrap = document.getElementById('statCards');
+  cardsWrap.innerHTML = '';
+  cardsWrap.classList.add('hidden');
+
+  var el = document.getElementById('rankLine');
+  el.classList.remove('hidden');
+  el.textContent = '지금은 통계를 불러올 수 없지만, 체험은 잘 완료됐어요! · ' + typeName;
 }

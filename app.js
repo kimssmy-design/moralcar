@@ -1,6 +1,6 @@
 // app.js — 화면 흐름 제어
 
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbwUP8a_WANJcinpRsF9AduGn7RN1mT2sLY1QDUYe6ETVEGgCEFPMs9_31vbe8epFIgo/exec'; // TODO: 배포 후 교체
+var GAS_URL = 'https://script.google.com/macros/s/여기에_배포_URL_입력/exec'; // TODO: 배포 후 교체
 
 var state = {
   grade: '',
@@ -174,23 +174,28 @@ function submitResult(typeKey, typeName) {
     .then(function (submitRes) {
       var rank = submitRes && submitRes.ok ? submitRes.rank : null;
       fetchStats().then(function (statsRes) {
-        renderStatCards(statsRes.ok ? statsRes.counts : {});
-        renderRankLine(rank, statsRes.ok ? statsRes.total : null, typeName);
+        if (statsRes.ok && rank) {
+          renderStatCards(statsRes.counts);
+          renderRankLine(rank, statsRes.total, typeName);
+        } else {
+          renderStatsUnavailable(typeName);
+        }
         showStatsLoading(false);
       });
     })
     .catch(function () {
-      // 저장/통계 조회 실패해도 학생 화면은 그대로 유지
-      renderStatCards({});
-      renderRankLine(null, null, typeName);
+      // 저장/통계 조회 실패해도 학생 화면(체험 자체)은 그대로 유지, 안내 문구만 표시
+      renderStatsUnavailable(typeName);
       showStatsLoading(false);
     });
 }
 
 function showStatsLoading(isLoading) {
   document.getElementById('statsLoading').classList.toggle('hidden', !isLoading);
-  document.getElementById('statCards').classList.toggle('hidden', isLoading);
-  document.getElementById('rankLine').classList.toggle('hidden', isLoading);
+  if (isLoading) {
+    document.getElementById('statCards').classList.add('hidden');
+    document.getElementById('rankLine').classList.add('hidden');
+  }
 }
 
 // ── 5. 다음 참여자를 위한 초기화 ──
@@ -206,6 +211,3 @@ document.getElementById('restartBtn').addEventListener('click', function () {
 
   showScreen('startScreen');
 });
-
-// 워밍업 ping
-(function warmup() { fetch(GAS_URL, { method: 'GET' }).catch(function () {}); })();
