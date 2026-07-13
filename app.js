@@ -44,8 +44,8 @@ function renderScenario() {
 
   var leftBtn = document.getElementById('leftChoiceBtn');
   var rightBtn = document.getElementById('rightChoiceBtn');
-  leftBtn.textContent = '직진 → ' + scenario.left.desc;
-  rightBtn.textContent = '방향 전환 → ' + scenario.right.desc;
+  leftBtn.textContent = '직진하면 사고 · ' + scenario.left.desc;
+  rightBtn.textContent = '방향 전환하면 사고 · ' + scenario.right.desc;
   leftBtn.classList.remove('picked');
   rightBtn.classList.remove('picked');
   leftBtn.disabled = false;
