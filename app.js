@@ -1,6 +1,6 @@
 // app.js — 화면 흐름 제어
 
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbwUP8a_WANJcinpRsF9AduGn7RN1mT2sLY1QDUYe6ETVEGgCEFPMs9_31vbe8epFIgo/exec'; // TODO: 배포 후 교체
+var GAS_URL = 'https://script.google.com/macros/s/여기에_배포_URL_입력/exec'; // TODO: 배포 후 교체
 
 var state = {
   grade: '',
@@ -56,8 +56,14 @@ function renderScenario() {
   reactionEl.textContent = '　'; // 빈 자리 유지용 공백
   reactionEl.classList.add('bubble-invisible');
 
-  leftBtn.onmouseenter = function () { previewChoice('left'); };
-  rightBtn.onmouseenter = function () { previewChoice('right'); };
+  var supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (supportsHover) {
+    leftBtn.onmouseenter = function () { previewChoice('left'); };
+    rightBtn.onmouseenter = function () { previewChoice('right'); };
+  } else {
+    leftBtn.onmouseenter = null;
+    rightBtn.onmouseenter = null;
+  }
   leftBtn.onclick = function () { pickChoice('left', scenario, leftBtn, rightBtn); };
   rightBtn.onclick = function () { pickChoice('right', scenario, leftBtn, rightBtn); };
 }
